@@ -1,8 +1,7 @@
 # main.py
 from instabot import Bot
-import schedule
-import time
 import os
+import shutil
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -18,15 +17,18 @@ def send_message_to_friend(username, message):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-def schedule_message():
-    # Schedule the send_message_to_friend function
-    schedule.every().day.at("04:00").do(send_message_to_friend, username=os.getenv("TARGET"), message=os.getenv("MSG"))
-
-    print("Scheduler started. Waiting for the scheduled tasks...")
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
 if __name__ == "__main__":
-    schedule_message()
+
+    folder_path = 'config'
+
+    if os.path.exists(folder_path):
+        try:
+            shutil.rmtree(folder_path)  # Use shutil.rmtree to remove the folder and its contents
+            print(f"The {folder_path} config has been deleted successfully.")
+        except Exception as e:
+            print(f"Error: {e}")
+            print(f"{folder_path} not deleted")
+
+    target_username = os.getenv("TARGET")
+    message_to_send = os.getenv("MSG")
+    send_message_to_friend(username=target_username, message=message_to_send)
