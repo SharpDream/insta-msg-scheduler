@@ -91,3 +91,22 @@ Before running the script, ensure you have:
 
 - Check the task logs in PythonAnywhere regularly to monitor if your script executes as expected.
 - If any errors occur during execution, PythonAnywhere will log them, aiding in troubleshooting any issues that arise.
+
+### Config folder problem:
+
+After running the instabot there a config folder is created. Which rises an error on 2nd run.
+
+so added some lines of code to check of "config" folder exists or not if exists then delete the folder before another run of program
+
+
+```python
+if os.path.exists(folder_path):
+        try:
+            shutil.rmtree(folder_path)  # Use shutil.rmtree to remove the folder and its contents
+            print(f"The {folder_path} config has been deleted successfully.")
+        except Exception as e:
+            print(f"Error: {e}")
+            print(f"{folder_path} not deleted")
+
+```
+
